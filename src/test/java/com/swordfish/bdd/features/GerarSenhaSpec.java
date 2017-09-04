@@ -1,4 +1,4 @@
-package com.tacsio.bdd.features;
+package com.swordfish.bdd.features;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -23,12 +23,17 @@ public class GerarSenhaSpec implements Pt {
 			throw new PendingException();
 		});
 
-		Quando("^A dia de nascimento é (\\d+)$", (Integer arg1) -> {
+		Quando("^o dia de nascimento é (\\d+)$", (Integer arg1) -> {
 			// Write code here that turns the phrase above into concrete actions
 			throw new PendingException();
 		});
 
 		Quando("^o tamanho da senha é (\\d+)$", (Integer arg1) -> {
+			// Write code here that turns the phrase above into concrete actions
+			throw new PendingException();
+		});
+
+		Quando("^o tamanho da senha é vazio$", () -> {
 			// Write code here that turns the phrase above into concrete actions
 			throw new PendingException();
 		});
@@ -59,6 +64,16 @@ public class GerarSenhaSpec implements Pt {
 		});
 
 		Então("^as senhas estão válidas de acordo com as opções selecionadas$", () -> {
+			// Write code here that turns the phrase above into concrete actions
+			throw new PendingException();
+		});
+
+		Então("^O site mostra a mensagem de erro: \"([^\"]*)\"$", (String arg1) -> {
+			// Write code here that turns the phrase above into concrete actions
+			throw new PendingException();
+		});
+
+		Então("^O botão de gerar é desabilitado$", () -> {
 			// Write code here that turns the phrase above into concrete actions
 			throw new PendingException();
 		});
