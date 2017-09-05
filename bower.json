@@ -1,0 +1,21 @@
+{
+  "name": "swordfish",
+  "homepage": "https://github.com/tacsio/swordfish",
+  "authors": [
+    "Mariane Vieira <mariane.vieira@ufpe.br>"
+  ],
+  "description": "Gerador automático de senhas",
+  "main": "src/main/java/com/swordfish/bdd/BddApplication.java",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.6",
+    "angular-material": "^1.1.4"
+  }
+}

@@ -1,6 +1,7 @@
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
+bower_components
 
 ### STS ###
 .apt_generated

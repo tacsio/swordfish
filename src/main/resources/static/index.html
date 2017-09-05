@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Swordfish</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+    <style type="text/css">
+   		md-input-container{
+   			margin: 0px;
+   		}   		
+    </style>
+</head>
+ <body ng-app="App" ng-cloak>
+    
+    <script src="/bower_components/angular/angular.js"></script> 
+    <script src="/bower_components/angular-aria/angular-aria.js"></script> 
+    <script src="/bower_components/angular-animate/angular-animate.js"></script> 
+    <script src="/bower_components/angular-material/angular-material.js"></script> 
+ 
+    <div ng-controller="MainController">
+		<md-content layout="column" flex>
+			<md-toolbar class="md-tall"></md-toolbar>
+			<form name="form" ng-submit="form.$valid && gerar()" layout="row" layout-align="center center" style="margin-top:-80px; z-index:2;">
+			<md-card flex-gt-sm="75" flex>
+		        <md-card-title>
+		          <md-card-title-text>
+		            <span class="md-headline">Gerador de senhas</span>
+		          </md-card-title-text>
+		        </md-card-title>
+		        <md-card-content>
+		          <div layout-gt-xs="row" layout="column">
+		            <md-input-container flex-gt-xs="75">
+			            <label>Nome</label>
+			            <input ng-model="config.nome" md-maxlength="30" id="inputNome"/>
+			          </md-input-container>
+			          <md-input-container flex-gt-xs="25">
+			            <label>Dia nascimento</label>
+			            <input type="number" min="1" max="31" ng-model="config.diaNasc" id="inputDiaNasc"/>
+			          </md-input-container>
+		          </div>
+		          
+		          <fieldset flex>
+			          <legend>Configurações</legend>
+			          <div style="margin-top:15px;">
+						  <md-input-container flex-gt-md="50" flex="100">
+				            <label>Tamanho</label>
+				            <input type="number" min="3" max="200" ng-model="config.tamanho" id="inputTamanho" ng-required="true"/>
+				          </md-input-container>         
+				          <div>
+					          <div>Tipo da Senha:</div> 
+							  <md-radio-group ng-model="config.tipoSenha" class="md-primary" layout-gt-xs="row" layout-padding id="radioTipoSenha">
+								<md-radio-button ng-repeat="it in tipos"
+				                       ng-value="it.value"
+				                       aria-label="{{it.label}}">
+							          {{it.label}}
+								</md-radio-button>
+							  </md-radio-group>
+				          </div>
+				          <div layout="column">
+							  <md-checkbox ng-model="config.maiuscula" aria-label="Letras maiúsculas" id="checkMaiuscula">
+					            Letras Maiúsculas
+					          </md-checkbox>
+					          <md-checkbox ng-model="config.repeticaoNumeros" aria-label="Aceita repetição de números" id="checkRepeticao">
+					            Permitir repetição de números
+					          </md-checkbox>
+					          <md-checkbox ng-model="config.caracteresEspeciais" aria-label="Caracteres especiais"  id="checkCaracEspeciais">
+					            Caracteres especiais
+					          </md-checkbox>						
+				          </div>
+			          </div>
+		          </fieldset>
+
+		        </md-card-content>
+		        <md-card-actions layout="row" layout-align="end center"  flex>
+		          <md-button ng-disabled="!form.$valid" class="md-primary md-raised" id="botaoGerar" type="submit">Gerar</md-button>
+		        </md-card-actions>
+		        
+	          	<md-divider ng-show="gerou"></md-divider>
+	          	
+		      </md-card>
+
+			</form>
+		 	
+		</md-content> 
+	</div>
+	
+    <script>
+ 
+        // Include app dependency on ngMaterial 
+ 
+        var app = angular.module( 'App', [ 'ngMaterial' ] );
+        app.controller('MainController', function($scope, $http, $mdDialog) {
+      		// you need to let this controller know you want to have access
+      		// to the "scope" -- $scope
+      		$scope.text = "Catch em All!";
+      		$scope.naoPodeGerar = true;
+      		$scope.gerou = false;
+      		$scope.tipos = [{label:"Numérica", value:"NUMERICA"},
+      		              	{label:"Alfabética", value:"ALFABETICA"},
+      		            	{label:"Alfanumérica", value:"ALFANUMERICA"}];
+      		$scope.config = {};
+      		$scope.config.tipoSenha = $scope.tipos[0].value;
+      		
+      		$scope.gerar = function(){
+      			$http.post('/senhas', $scope.config).then(function successCallback(response) {
+      			    //show senhas response.data
+      			  }, function errorCallback(response) {
+      				$mdDialog.show($mdDialog.alert()
+      				        .parent(angular.element(document.querySelector('body')))
+      				        .clickOutsideToClose(true)
+      				        .title("Erro")
+      				        .textContent(response.data.message)
+      				        .ok('OK'));
+
+      			  });
+      		};
+      	});
+ 
+    </script> 
+ 
+</body>
+</html>
