@@ -3,9 +3,12 @@ package com.swordfish.bdd.senha;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.swordfish.bdd.senha.model.Configuracao;
 import com.swordfish.bdd.senha.model.TipoSenha;
 
+@Service
 public class GeradorSenhaImpl implements GeradorSenha {
 
 	private List<GeradorCaractere> geradores;
@@ -17,16 +20,16 @@ public class GeradorSenhaImpl implements GeradorSenha {
 
 	private void criarConfigurarGeradores(Configuracao conf) {
 
-		if (conf.getCaracteresEspeciais()) {
+		if (conf.isCaracteresEspeciais()) {
 			this.geradores.add(new GeradorCaractereEspecial());
 		}
 		if (conf.getTipoSenha().equals(TipoSenha.ALFANUMERICO)) {
-			this.geradores.add(new GeradorLetra(conf.getMaiuscula()));
-			this.geradores.add(new GeradorDigito(conf.getRepeticaoNumeros()));
+			this.geradores.add(new GeradorLetra(conf.isMaiuscula()));
+			this.geradores.add(new GeradorDigito(conf.isRepeticaoNumeros()));
 		} else if (conf.getTipoSenha().equals(TipoSenha.ALFABETICO)) {
-			this.geradores.add(new GeradorLetra(conf.getMaiuscula()));
+			this.geradores.add(new GeradorLetra(conf.isMaiuscula()));
 		} else if (conf.getTipoSenha().equals(TipoSenha.NUMERICO)) {
-			this.geradores.add(new GeradorDigito(conf.getRepeticaoNumeros()));
+			this.geradores.add(new GeradorDigito(conf.isRepeticaoNumeros()));
 		}
 		this.qtdGeradores = this.geradores.size();
 	}

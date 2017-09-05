@@ -5,9 +5,9 @@ public class Configuracao {
 	private String nome;
 	private Integer diaNasc;
 	private Integer tamanho;
-	private Boolean maiuscula;
-	private Boolean repeticaoNumeros;
-	private Boolean caracteresEspeciais;
+	private boolean maiuscula;
+	private boolean repeticaoNumeros;
+	private boolean caracteresEspeciais;
 	private TipoSenha tipoSenha;
 		
 	public String getNome() {
@@ -28,22 +28,22 @@ public class Configuracao {
 	public void setTamanho(Integer tamanho) {
 		this.tamanho = tamanho;
 	}
-	public Boolean getMaiuscula() {
+	public boolean isMaiuscula() {
 		return maiuscula;
 	}
-	public void setMaiuscula(Boolean maiuscula) {
+	public void setMaiuscula(boolean maiuscula) {
 		this.maiuscula = maiuscula;
 	}
-	public Boolean getRepeticaoNumeros() {
+	public boolean isRepeticaoNumeros() {
 		return repeticaoNumeros;
 	}
-	public void setRepeticaoNumeros(Boolean repeticaoNumeros) {
+	public void setRepeticaoNumeros(boolean repeticaoNumeros) {
 		this.repeticaoNumeros = repeticaoNumeros;
 	}
-	public Boolean getCaracteresEspeciais() {
+	public boolean isCaracteresEspeciais() {
 		return caracteresEspeciais;
 	}
-	public void setCaracteresEspeciais(Boolean caracteresEspeciais) {
+	public void setCaracteresEspeciais(boolean caracteresEspeciais) {
 		this.caracteresEspeciais = caracteresEspeciais;
 	}
 	public TipoSenha getTipoSenha() {
