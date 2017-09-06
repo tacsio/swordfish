@@ -91,38 +91,43 @@ public class GeradorSenhaImpl implements GeradorSenha {
 		this.criarConfigurarGeradores(configuracao);
 		String senhaMin = this.gerarSenhaMinimaObrigatoria(configuracao);
 
-		while (senhaMin.length()+senha.length() < configuracao.getTamanho()) {
+		while (senhaMin.length() + senha.length() < configuracao.getTamanho()) {
 
 			senha = senha.concat(this.gerarCaractereAleatorio());
 
-			senha = senha.replaceAll(configuracao.getNome(), "");
-			senha = senha.replaceAll(String.valueOf(configuracao.getDiaString())+String.valueOf(configuracao.getMesString()), "");
+			if (configuracao.getNome() != null) {
+				senha = senha.replaceAll(configuracao.getNome(), "");
+			}
+			if (configuracao.getDia() != null && configuracao.getMes() != null) {
+				senha = senha.replaceAll(
+						String.valueOf(configuracao.getDiaString()) + String.valueOf(configuracao.getMesString()), "");
+			}
 		}
 
 		return this.misturarStrings(senhaMin, senha);
 	}
-	
+
 	private String misturarStrings(String senhaMin, String senha) {
 
 		int tam2 = senha.length();
 		String senhaFinal = senha;
-		
+
 		for (int i = 0; i < senhaMin.length(); i++) {
 			int indice = Util.gerarIndiceAleatorio(tam2);
 			char c1 = senhaMin.charAt(i);
 			String part1 = senhaFinal.substring(0, indice);
 			String part2 = senhaFinal.substring(indice);
-			senhaFinal = part1+c1+part2;
+			senhaFinal = part1 + c1 + part2;
 			tam2 = senhaFinal.length();
 		}
-		
+
 		return senhaFinal;
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		Configuracao c = new Configuracao();
-		c.setNome("jn");
+		c.setNome(null);
 		c.setDia(1);
 		c.setMes(2);
 		c.setCaracteresEspeciais(true);
@@ -130,7 +135,7 @@ public class GeradorSenhaImpl implements GeradorSenha {
 		c.setRepeticaoNumeros(false);
 		c.setTamanho(10);
 		c.setTipoSenha(TipoSenha.ALFANUMERICO);
-		
+
 		GeradorSenhaImpl g = new GeradorSenhaImpl();
 		System.out.println(g.gerarSenha(c));
 	}

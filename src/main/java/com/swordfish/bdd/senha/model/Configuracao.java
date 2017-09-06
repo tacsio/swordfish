@@ -10,7 +10,7 @@ public class Configuracao {
 	private boolean repeticaoNumeros;
 	private boolean caracteresEspeciais;
 	private TipoSenha tipoSenha;
-		
+
 	public String getNome() {
 		return nome;
 	}
