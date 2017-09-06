@@ -1,4 +1,4 @@
-package com.swordfish.bdd.service;
+package com.swordfish.bdd.controller;
 
 import java.util.ArrayList;
 import java.util.List;
