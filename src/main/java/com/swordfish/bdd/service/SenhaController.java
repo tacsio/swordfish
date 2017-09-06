@@ -19,8 +19,6 @@ public class SenhaController {
 	
 	@PostMapping("/senhas")
 	public List<String> hello(@RequestBody Configuracao configuracao) {
-
-		System.out.println(configuracao);
 		
 		List<String> lista = new ArrayList<>(3); 
 		lista.add(geradorSenha.gerarSenha(configuracao));

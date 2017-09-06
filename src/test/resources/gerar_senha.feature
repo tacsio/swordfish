@@ -43,7 +43,7 @@ Funcionalidade: Gerar Senha
     E a opção de repetição de números é "marcada"
     E a opção de caracteres especiais é "marcada"
     E o tipo da senha selecionada é "numérica"
-    Então O site mostra a mensagem de erro: "O campo de tamanho de senha deve ser maior que 2."
+    Então O site mostra a mensagem de erro: "Informe um tamanho de senha entre 5 e 10."
 
   Esquema do Cenário: Gerar Senha com configurações incompatíveis
     Dado que o usuário acessou a página

@@ -22,6 +22,17 @@ Team
 - Tarcisio Coutinho - [@tacsio](https://github.com/tacsio)
 
 
+Building
+=========
+
+For dev environment with eclipse:
+
+```sh
+bower install
+./gradlew eclipse
+```
+
+
 License
 =========
 MIT License
