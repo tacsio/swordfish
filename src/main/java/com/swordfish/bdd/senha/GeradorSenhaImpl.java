@@ -2,41 +2,85 @@ package com.swordfish.bdd.senha;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
 import com.swordfish.bdd.senha.model.Configuracao;
 import com.swordfish.bdd.senha.model.TipoSenha;
+import com.swordfish.bdd.util.Util;
 
 @Service
 public class GeradorSenhaImpl implements GeradorSenha {
 
 	private List<GeradorCaractere> geradores;
+	private Map<String, GeradorCaractere> mapaGeradores;
 	private int qtdGeradores;
-
-	public GeradorSenhaImpl() {
-		this.geradores = new ArrayList<>();
-	}
 
 	private void criarConfigurarGeradores(Configuracao conf) {
 
+		this.geradores = new ArrayList<>();
+		this.mapaGeradores = new TreeMap<>();
+		this.qtdGeradores = 0;
+
 		if (conf.isCaracteresEspeciais()) {
-			this.geradores.add(new GeradorCaractereEspecial());
+			GeradorCaractere g = new GeradorCaractereEspecial();
+			this.geradores.add(g);
+			this.mapaGeradores.put("especial", g);
 		}
 		if (conf.getTipoSenha().equals(TipoSenha.ALFANUMERICO)) {
-			this.geradores.add(new GeradorLetra(conf.isMaiuscula()));
-			this.geradores.add(new GeradorDigito(conf.isRepeticaoNumeros()));
+
+			GeradorCaractere g1 = new GeradorLetra(conf.isMaiuscula());
+			GeradorCaractere g2 = new GeradorDigito(conf.isRepeticaoNumeros());
+
+			this.geradores.add(g1);
+			this.geradores.add(g2);
+			this.mapaGeradores.put("letra", g1);
+			this.mapaGeradores.put("digito", g2);
+
 		} else if (conf.getTipoSenha().equals(TipoSenha.ALFABETICO)) {
-			this.geradores.add(new GeradorLetra(conf.isMaiuscula()));
+
+			GeradorCaractere g1 = new GeradorLetra(conf.isMaiuscula());
+			this.geradores.add(g1);
+			this.mapaGeradores.put("letra", g1);
+
 		} else if (conf.getTipoSenha().equals(TipoSenha.NUMERICO)) {
-			this.geradores.add(new GeradorDigito(conf.isRepeticaoNumeros()));
+
+			GeradorCaractere g2 = new GeradorDigito(conf.isRepeticaoNumeros());
+			this.geradores.add(g2);
+			this.mapaGeradores.put("digito", g2);
+
 		}
 		this.qtdGeradores = this.geradores.size();
 	}
 
+	private String gerarSenhaMinimaObrigatoria(Configuracao conf) {
+
+		String senhaMinima = "";
+		if (conf.isCaracteresEspeciais()) {
+			senhaMinima = senhaMinima.concat(mapaGeradores.get("especial").gerarCaractere());
+
+			if (conf.getTipoSenha().equals(TipoSenha.ALFANUMERICO)) {
+				senhaMinima = senhaMinima.concat(mapaGeradores.get("letra").gerarCaractere());
+				senhaMinima = senhaMinima.concat(mapaGeradores.get("digito").gerarCaractere());
+			} else if (conf.getTipoSenha().equals(TipoSenha.ALFABETICO)) {
+				senhaMinima = senhaMinima.concat(mapaGeradores.get("letra").gerarCaractere());
+			} else if (conf.getTipoSenha().equals(TipoSenha.NUMERICO)) {
+				senhaMinima = senhaMinima.concat(mapaGeradores.get("digito").gerarCaractere());
+			}
+		} else {
+			if (conf.getTipoSenha().equals(TipoSenha.ALFANUMERICO)) {
+				senhaMinima = senhaMinima.concat(mapaGeradores.get("letra").gerarCaractere());
+				senhaMinima = senhaMinima.concat(mapaGeradores.get("digito").gerarCaractere());
+			}
+		}
+		return senhaMinima;
+	}
+
 	private String gerarCaractereAleatorio() {
 
-		int indice = this.geradores.get(0).gerarIndiceAleatorio(this.qtdGeradores);
+		int indice = Util.gerarIndiceAleatorio(this.qtdGeradores);
 		return this.geradores.get(indice).gerarCaractere();
 	}
 
@@ -45,35 +89,50 @@ public class GeradorSenhaImpl implements GeradorSenha {
 
 		String senha = "";
 		this.criarConfigurarGeradores(configuracao);
+		String senhaMin = this.gerarSenhaMinimaObrigatoria(configuracao);
 
-		while (senha.length() < configuracao.getTamanho()) {
+		while (senhaMin.length()+senha.length() < configuracao.getTamanho()) {
 
 			senha = senha.concat(this.gerarCaractereAleatorio());
 
 			senha = senha.replaceAll(configuracao.getNome(), "");
-			senha = senha.replaceAll(String.valueOf(configuracao.getDiaNasc()), "");
-			
-			//TODO: falta obrigatoriedade de maiscula e caractere especial
-			//confirmar se é assim mesmo
+			senha = senha.replaceAll(String.valueOf(configuracao.getDiaString())+String.valueOf(configuracao.getMesString()), "");
 		}
 
-		return senha;
+		return this.misturarStrings(senhaMin, senha);
+	}
+	
+	private String misturarStrings(String senhaMin, String senha) {
+
+		int tam2 = senha.length();
+		String senhaFinal = senha;
+		
+		for (int i = 0; i < senhaMin.length(); i++) {
+			int indice = Util.gerarIndiceAleatorio(tam2);
+			char c1 = senhaMin.charAt(i);
+			String part1 = senhaFinal.substring(0, indice);
+			String part2 = senhaFinal.substring(indice);
+			senhaFinal = part1+c1+part2;
+			tam2 = senhaFinal.length();
+		}
+		
+		return senhaFinal;
 	}
 	
 	public static void main(String[] args) {
 		
 		Configuracao c = new Configuracao();
-		c.setNome("");
-		c.setDiaNasc(null);
+		c.setNome("jn");
+		c.setDia(1);
+		c.setMes(2);
 		c.setCaracteresEspeciais(true);
 		c.setMaiuscula(true);
-		c.setRepeticaoNumeros(true);
+		c.setRepeticaoNumeros(false);
 		c.setTamanho(10);
 		c.setTipoSenha(TipoSenha.ALFANUMERICO);
 		
 		GeradorSenhaImpl g = new GeradorSenhaImpl();
 		System.out.println(g.gerarSenha(c));
-		
 	}
 
 }

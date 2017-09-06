@@ -2,6 +2,8 @@ package com.swordfish.bdd.senha;
 
 import java.util.Random;
 
+import com.swordfish.bdd.util.Util;
+
 public class GeradorLetra implements GeradorCaractere {
 
 	private static String alfabeto = "abcdefghijklmnopqrstuvwxyz";
@@ -12,12 +14,12 @@ public class GeradorLetra implements GeradorCaractere {
 	}
 
 	/**
-	 * Gera letra de a à z, ou a à z-A à Z. 
+	 * Gera letra de a-z, ou a-zA-Z.
 	 */
 	@Override
 	public String gerarCaractere() {
 
-		int indice = this.gerarIndiceAleatorio(alfabeto.length());
+		int indice = Util.gerarIndiceAleatorio(alfabeto.length());
 		String letra = String.valueOf(GeradorLetra.alfabeto.charAt(indice));
 
 		if (this.permiteMaiuscula) {

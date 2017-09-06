@@ -3,7 +3,8 @@ package com.swordfish.bdd.senha.model;
 public class Configuracao {
 	
 	private String nome;
-	private Integer diaNasc;
+	private Integer dia;
+	private Integer mes;
 	private Integer tamanho;
 	private boolean maiuscula;
 	private boolean repeticaoNumeros;
@@ -15,12 +16,6 @@ public class Configuracao {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public Integer getDiaNasc() {
-		return diaNasc;
-	}
-	public void setDiaNasc(Integer diaNasc) {
-		this.diaNasc = diaNasc;
 	}
 	public Integer getTamanho() {
 		return tamanho;
@@ -52,16 +47,35 @@ public class Configuracao {
 	public void setTipoSenha(TipoSenha tipoSenha) {
 		this.tipoSenha = tipoSenha;
 	}
-	
+	public Integer getDia() {
+		return dia;
+	}
+	public String getDiaString() {
+		return String.format("%02d", dia);
+	}
+	public void setDia(Integer dia) {
+		this.dia = dia;
+	}
+	public Integer getMes() {
+		return mes;
+	}
+	public String getMesString() {
+		return String.format("%02d", mes);
+	}
+	public void setMes(Integer mes) {
+		this.mes = mes;
+	}
+
 	public boolean isValid(){
 		//TODO
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Configuracao [nome=" + nome + ", diaNasc=" + diaNasc + ", tamanho=" + tamanho + ", maiuscula="
+		return "Configuracao [nome=" + nome + ", dia=" + dia + ", mes=" + mes + ", tamanho=" + tamanho + ", maiuscula="
 				+ maiuscula + ", repeticaoNumeros=" + repeticaoNumeros + ", caracteresEspeciais=" + caracteresEspeciais
 				+ ", tipoSenha=" + tipoSenha + "]";
 	}
+
 }
