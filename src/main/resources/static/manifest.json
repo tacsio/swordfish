@@ -14,8 +14,5 @@
     "src": "images/key256.png",
     "sizes": "256x256",
     "type": "image/png"
-  }],
-  "related_applications": [{
-    "platform": "web"
   }]
 }
