@@ -29,6 +29,9 @@ dependencies {
 	testCompile('info.cukes:cucumber-java8:1.2.5')
 	testCompile('info.cukes:cucumber-junit:1.2.5')
 	testCompile('info.cukes:cucumber-spring:1.2.5')
+	testCompile('org.seleniumhq.selenium:selenium-java:3.5.2')
+	testCompile('com.google.guava:guava:21.0')
+	
 }
 
 test {
