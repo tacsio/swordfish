@@ -15,16 +15,19 @@ import com.swordfish.bdd.senha.model.Configuracao;
 public class SenhaController {
 
 	@Autowired
-	private GeradorSenha geradorSenha; 
-	
+	private GeradorSenha geradorSenha;
+
 	@PostMapping("/senhas")
 	public List<String> hello(@RequestBody Configuracao configuracao) {
-		
-		List<String> lista = new ArrayList<>(3); 
+
+		configuracao.isValid();
+
+		List<String> lista = new ArrayList<>(3);
 		lista.add(geradorSenha.gerarSenha(configuracao));
 		lista.add(geradorSenha.gerarSenha(configuracao));
 		lista.add(geradorSenha.gerarSenha(configuracao));
 
 		return lista;
 	}
+
 }

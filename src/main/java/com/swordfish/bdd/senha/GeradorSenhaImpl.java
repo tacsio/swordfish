@@ -98,7 +98,7 @@ public class GeradorSenhaImpl implements GeradorSenha {
 			if (configuracao.getNome() != null) {
 				senha = senha.replaceAll(configuracao.getNome(), "");
 			}
-			if (configuracao.getDia() != null && configuracao.getMes() != null) {
+			if (configuracao.getDiaNasc() != null && configuracao.getMesNasc() != null) {
 				senha = senha.replaceAll(
 						String.valueOf(configuracao.getDiaString()) + String.valueOf(configuracao.getMesString()), "");
 			}
@@ -128,8 +128,8 @@ public class GeradorSenhaImpl implements GeradorSenha {
 
 		Configuracao c = new Configuracao();
 		c.setNome(null);
-		c.setDia(1);
-		c.setMes(2);
+		c.setDiaNasc(1);
+		c.setMesNasc(2);
 		c.setCaracteresEspeciais(true);
 		c.setMaiuscula(true);
 		c.setRepeticaoNumeros(false);
