@@ -1,5 +1,7 @@
 package com.swordfish.bdd.features;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,8 +13,15 @@ import cucumber.api.java8.Pt;
 @ContextConfiguration
 public class GerarSenhaSpec implements Pt {
 
+	private WebDriver driver;
+	
 	public GerarSenhaSpec() {
-
+		
+		Before(() -> {
+			System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
+			driver = new ChromeDriver();
+		});
+		
 		Dado("^que o usuário acessou a página$", () -> {
 			// Write code here that turns the phrase above into concrete actions
 			throw new PendingException();
@@ -26,6 +35,16 @@ public class GerarSenhaSpec implements Pt {
 		Quando("^o dia de nascimento é (\\d+)$", (Integer arg1) -> {
 			// Write code here that turns the phrase above into concrete actions
 			throw new PendingException();
+		});
+				
+		Quando("^o mes de nascimento é (\\d+)$", (Integer arg1) -> {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new PendingException();
+		});
+		
+		Quando("^o mes de nascimento é $", () -> {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new PendingException();
 		});
 
 		Quando("^o tamanho da senha é (\\d+)$", (Integer arg1) -> {
@@ -76,6 +95,10 @@ public class GerarSenhaSpec implements Pt {
 		Então("^O botão de gerar é desabilitado$", () -> {
 			// Write code here that turns the phrase above into concrete actions
 			throw new PendingException();
+		});
+		
+		After(() -> {
+		    driver.close();
 		});
 
 	}

@@ -130,7 +130,7 @@
 				  <md-subheader class="md-no-sticky">Senhas geradas:</md-subheader>
 				
 				  <md-list-item ng-repeat="senha in senhas" ngclipboard data-clipboard-text="{{senha}}" ng-click="showToastCopy();" class="my-tooltip-parent">
-				    <p> <span>{{senha}}</span> </p>
+				    <p> <span id="senha{{$index + 1}}">{{senha}}</span> </p>
 				    <div class="md-secondary-container">
 				    	<i class="fa fa-clone" aria-hidden="true"></i>
 				    </div>								    	
