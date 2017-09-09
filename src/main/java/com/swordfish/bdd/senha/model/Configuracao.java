@@ -104,7 +104,7 @@ public class Configuracao {
 					"Não é possível gerar uma senha informando apenas dia ou mês de nascimento.");
 		}
 
-		if (!"".equals(tamanho)) {
+		if (tamanho != null) {
 			if (tamanho < 5 || tamanho > 10) {
 				throw new IllegalArgumentException("Informe um tamanho de senha entre 5 e 10.");
 			}

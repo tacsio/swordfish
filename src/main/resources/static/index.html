@@ -64,21 +64,21 @@
 			            <label>Nome</label>
 			            <input ng-model="config.nome" md-maxlength="30" id="inputNome" name="inputNome"/>
 			            <div ng-messages="form.inputNome.$error">
-				            <div ng-message="md-maxlength">Nome não pode ultrapassar 30 caracteres.</div>
+				            <div ng-message="md-maxlength" class="msg-form-erro">Nome não pode ultrapassar 30 caracteres.</div>
 				        </div>
 			          </md-input-container>
 			          <md-input-container flex-gt-xs="25">
 			            <label>Dia nascimento</label>
 			            <input type="number" min="1" max="31" ng-model="config.diaNasc" id="inputDiaNasc" name="inputDiaNasc"/>
 			            <div ng-messages="form.inputDiaNasc.$error">
-				            <div ng-message-exp="['max', 'min']">Informe um valor de dia entre 1 e 31.</div>
+				            <div ng-message-exp="['max', 'min']" class="msg-form-erro">Informe um valor de dia entre 1 e 31.</div>
 				        </div>
 			          </md-input-container>
 			          <md-input-container flex-gt-xs="25">
 			            <label>Mês nascimento</label>
 			            <input type="number" min="1" max="12" ng-model="config.mesNasc" id="inputMesNasc" name="inputMesNasc"/>
 			            <div ng-messages="form.inputMesNasc.$error">
-				            <div ng-message-exp="['max', 'min']">Informe um valor de mês entre 1 e 12.</div>
+				            <div ng-message-exp="['max', 'min']" class="msg-form-erro">Informe um valor de mês entre 1 e 12.</div>
 				        </div>
 			          </md-input-container>
 		          </div>
@@ -90,8 +90,8 @@
 				            <label>Tamanho</label>
 				            <input type="number" min="5" max="10" ng-model="config.tamanho" id="inputTamanho" name="inputTamanho" required/>
 			            	<div ng-messages="form.inputTamanho.$error">
-					            <div ng-message="required">O campo de tamanho de senha deve ser preenchido.</div>
-					            <div ng-message-exp="['max', 'min']">Informe um tamanho de senha entre 5 e 10.</div>
+					            <div ng-message="required" class="msg-form-erro">O campo de tamanho de senha deve ser preenchido.</div>
+					            <div ng-message-exp="['max', 'min']" class="msg-form-erro">Informe um tamanho de senha entre 5 e 10.</div>
 					        </div>
 				          </md-input-container>         
 				          <div>
@@ -139,7 +139,19 @@
 		      </md-card>
 
 			</form>
-		 	
+		 	<div style="visibility: hidden">
+			  <div class="md-dialog-container" id="dialogErro">
+			    <md-dialog layout-padding>
+			     	<md-dialog-content>
+				     	<h2>Alerta!</h2>
+	        			<p id="msgDialogErro">{{message}}</p>
+        			</md-dialog-content>
+        			<md-dialog-actions layout="row">
+				      <md-button ng-click="hideDialog();">OK</md-button>
+				    </md-dialog-actions>			      
+			    </md-dialog>
+			  </div>
+			</div>
 		</md-content> 
 	</div>
 	
@@ -159,18 +171,24 @@
       		}
       		$scope.config.tipoSenha = $scope.tipos[0].value;
       		
+      		$scope.hideDialog = function() {
+      	      $mdDialog.hide();
+      	    };
+      		
       		$scope.gerar = function(){
       			$scope.gerou = false;
       			$http.post('/senhas', $scope.config).then(function successCallback(response) {
       				$scope.gerou = true;
       				$scope.senhas = response.data;
       			  }, function errorCallback(response) {
-      				$mdDialog.show($mdDialog.alert()
-      				        .parent(angular.element(document.querySelector('body')))
-      				        .clickOutsideToClose(true)
-      				        .title("Erro")
-      				        .textContent(response.data.message)
-      				        .ok('OK'));
+      				$scope.message = response.data.message;
+
+      				$mdDialog.show({
+      			      contentElement: '#dialogErro',
+      			      parent: angular.element(document.body),
+      			      clickOutsideToClose: true
+      			    });
+      				
       				$scope.gerou = false;
       			  });
       		};
