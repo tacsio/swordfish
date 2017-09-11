@@ -122,4 +122,9 @@ public class Configuracao {
 				+ ", tipoSenha=" + tipoSenha + "]";
 	}
 
+	public boolean validate(String s) {
+		//TODO;
+		return true;
+	}
+
 }

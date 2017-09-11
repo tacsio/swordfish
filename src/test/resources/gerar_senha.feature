@@ -34,7 +34,8 @@ Funcionalidade: Gerar Senha
     E a opção de repetição de números é "marcada"
     E a opção de caracteres especiais é "marcada"
     E o tipo da senha selecionada é "numérica"
-    Então O site mostra a mensagem de erro: "O campo de tamanho de senha deve ser preenchido."
+    Então O botão de gerar é desabilitado 
+    E O site mostra a mensagem de erro: "O campo de tamanho de senha deve ser preenchido."
 
   Cenário: Gerar senha com tamanho menor que o mínimo
     Dado que o usuário acessou a página
@@ -46,7 +47,8 @@ Funcionalidade: Gerar Senha
     E a opção de repetição de números é "marcada"
     E a opção de caracteres especiais é "marcada"
     E o tipo da senha selecionada é "numérica"
-    Então O site mostra a mensagem de erro: "Informe um tamanho de senha entre 5 e 10."
+    Então O botão de gerar é desabilitado 
+    E O site mostra a mensagem de erro: "Informe um tamanho de senha entre 5 e 10."
 
   Esquema do Cenário: Gerar Senha com configurações incompatíveis
     Dado que o usuário acessou a página
@@ -58,8 +60,7 @@ Funcionalidade: Gerar Senha
     E a opção de repetição de números é <repeticao>
     E a opção de caracteres especiais é <caractere_especial>
     E o tipo da senha selecionada é <tipo>
-    Então O botão de gerar é desabilitado
-    E O site mostra a mensagem de erro: <msg_erro>
+    Então O site mostra a mensagem de erro: <msg_erro>
 
     Exemplos: 
       | nome       | dia_nasc | mes_nasc | tamanho | maiuscula | repeticao | caractere_especial | tipo         | msg_erro                                                                      |
