@@ -44,6 +44,9 @@ public class GerarSenhaSpec implements Pt {
 
 		Before(() -> {
 			System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
+			if(System.getProperty("os.name").toLowerCase().contains("win")) {
+				System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+			}
 			driver = new ChromeDriver();
 		});
 
