@@ -14,6 +14,7 @@ Funcionalidade: Gerar Senha
     E a opção de repetição de números é <repeticao>
     E a opção de caracteres especiais é <caractere_especial>
     E o tipo da senha selecionada é <tipo>
+    E o usuário clica em gerar senha
     Então O site mostra três possibilidades de senha
     E as senhas estão válidas de acordo com as opções selecionadas
 
@@ -22,7 +23,6 @@ Funcionalidade: Gerar Senha
       | "Tarcisio" |       28 |        2 |       8 | "não marcada" | "marcada"     | "marcada"          | "numérica"     |
       | "Mariane"  |        2 |        2 |      10 | "marcada"     | "não marcada" | "não marcada"      | "alfabética"   |
       | "Hially"   |        1 |        2 |       6 | "não marcada" | "não marcada" | "não marcada"      | "alfanumérica" |
-      | ""         |        0 |        2 |       3 | "não marcada" | "não marcada" | "não marcada"      | "alfanumérica" |
 
   Cenário: Gerar senha sem preencher tamanho
     Dado que o usuário acessou a página
@@ -35,7 +35,7 @@ Funcionalidade: Gerar Senha
     E a opção de caracteres especiais é "marcada"
     E o tipo da senha selecionada é "numérica"
     Então O botão de gerar é desabilitado 
-    E O site mostra a mensagem de erro: "O campo de tamanho de senha deve ser preenchido."
+    E O site mostra a notificacao de erro de preenchimento do tamanho da senha
 
   Cenário: Gerar senha com tamanho menor que o mínimo
     Dado que o usuário acessou a página
@@ -48,7 +48,7 @@ Funcionalidade: Gerar Senha
     E a opção de caracteres especiais é "marcada"
     E o tipo da senha selecionada é "numérica"
     Então O botão de gerar é desabilitado 
-    E O site mostra a mensagem de erro: "Informe um tamanho de senha entre 5 e 10."
+    E O site mostra a notificacao de erro de tamanho de senha
 
   Esquema do Cenário: Gerar Senha com configurações incompatíveis
     Dado que o usuário acessou a página
@@ -60,10 +60,13 @@ Funcionalidade: Gerar Senha
     E a opção de repetição de números é <repeticao>
     E a opção de caracteres especiais é <caractere_especial>
     E o tipo da senha selecionada é <tipo>
+    E o usuário clica em gerar senha
     Então O site mostra a mensagem de erro: <msg_erro>
 
     Exemplos: 
       | nome       | dia_nasc | mes_nasc | tamanho | maiuscula | repeticao | caractere_especial | tipo         | msg_erro                                                                      |
       | "Tarcisio" |       28 |        2 |       8 | "marcada" | "marcada" | "marcada"          | "numérica"   | "Não é possível gerar uma senha do tipo numérica com letras maiúsculas."      |
       | "Tarcisio" |       28 |        2 |       8 | "marcada" | "marcada" | "marcada"          | "alfabética" | "Não é possível gerar uma senha do tipo alfabética com repetição de números." |
-      | "Tarcisio" |       28 |          |       8 | "marcada" | "marcada" | "marcada"          | "alfabética" | "Não é possível gerar uma senha informando apenas dia ou mês de nascimento."  |
+      | "Tarcisio" |       28 |          |       8 | "marcada" | "marcada" | "marcada"          | "alfabética" | "Não é possível gerar uma senha do tipo alfabética com repetição de números."  |
+      | "Tarcisio" |       28 |          |       8 | "marcada" | "marcada" | "marcada"          | "alfanumérica" | "Não é possível gerar uma senha informando apenas dia ou mês de nascimento."  |
+      

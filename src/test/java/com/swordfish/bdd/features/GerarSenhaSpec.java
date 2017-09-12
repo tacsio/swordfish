@@ -21,7 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import com.swordfish.bdd.senha.model.Configuracao;
 import com.swordfish.bdd.senha.model.TipoSenha;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.Pt;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -56,13 +55,13 @@ public class GerarSenhaSpec implements Pt {
 
 		Quando("^o nome do usuário é \"([^\"]*)\"$", (String arg1) -> {
 			configuracao.setNome(arg1);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("inputNome")));
+			visibilityOfElementLocated(By.id("inputNome"));
 			driver.findElement(By.id("inputNome")).sendKeys(arg1);
 		});
 
 		Quando("^o dia de nascimento é (\\d+)$", (Integer arg1) -> {
 			configuracao.setDiaNasc(arg1);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("inputDiaNasc")));
+			visibilityOfElementLocated(By.id("inputDiaNasc"));
 			driver.findElement(By.id("inputDiaNasc")).sendKeys(arg1+"");
 		});
 		
@@ -73,20 +72,20 @@ public class GerarSenhaSpec implements Pt {
 
 		Quando("^o mes de nascimento é (\\d+)$", (Integer arg1) -> {
 			configuracao.setMesNasc(arg1);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("inputMesNasc")));
+			visibilityOfElementLocated(By.id("inputMesNasc"));
 			driver.findElement(By.id("inputMesNasc")).sendKeys(arg1+"");
 		});
 
 
 		Quando("^o tamanho da senha é (\\d+)$", (Integer arg1) -> {
 			configuracao.setTamanho(arg1);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("inputTamanho")));
+			visibilityOfElementLocated(By.id("inputTamanho"));
 			driver.findElement(By.id("inputTamanho")).sendKeys(arg1+"");
 		});
 
 		Quando("^o tamanho da senha é vazio$", () -> {
 			configuracao.setTamanho(0);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("inputTamanho")));
+			visibilityOfElementLocated(By.id("inputTamanho"));
 			driver.findElement(By.id("inputTamanho")).sendKeys("");
 		});
 
@@ -100,7 +99,7 @@ public class GerarSenhaSpec implements Pt {
 			}
 			
 			configuracao.setMaiuscula(marcado);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("checkMaiuscula")));
+			visibilityOfElementLocated(By.id("checkMaiuscula"));
 
 			if(marcado) {
 				driver.findElement(By.id("checkMaiuscula")).click();
@@ -117,7 +116,7 @@ public class GerarSenhaSpec implements Pt {
 			}
 			
 			configuracao.setMaiuscula(marcado);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("checkRepeticao")));
+			visibilityOfElementLocated(By.id("checkRepeticao"));
 
 			if(marcado) {
 				driver.findElement(By.id("checkRepeticao")).click();
@@ -134,7 +133,7 @@ public class GerarSenhaSpec implements Pt {
 			}
 			
 			configuracao.setMaiuscula(marcado);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("checkCaracEspeciais")));
+			visibilityOfElementLocated(By.id("checkCaracEspeciais"));
 
 			if(marcado) {
 				driver.findElement(By.id("checkCaracEspeciais")).click();
@@ -153,13 +152,19 @@ public class GerarSenhaSpec implements Pt {
 				tipo = TipoSenha.ALFANUMERICO;
 			}
 						configuracao.setTipoSenha(tipo);
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("checkCaracEspeciais")));
+			visibilityOfElementLocated(By.id("checkCaracEspeciais"));
 			driver.findElement(By.cssSelector("md-radio-button[value="+ tipo + "]")).click();
 		});
-
-		Então("^O site mostra três possibilidades de senha$", () -> {
+		
+		Quando("^o usuário clica em gerar senha$", () -> {
 			driver.findElement(By.id("botaoGerar")).click();
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("md-list-item")));
+		});
+
+		
+		/* ----------------- THEN -----------------*/
+		
+		Então("^O site mostra três possibilidades de senha$", () -> {
+			visibilityOfElementLocated(By.tagName("md-list-item"));
 			driver.findElements(By.tagName("md-list-item"))
 				.stream()
 				.map(WebElement::getText)
@@ -175,12 +180,26 @@ public class GerarSenhaSpec implements Pt {
 		});
 
 		Então("^O site mostra a mensagem de erro: \"([^\"]*)\"$", (String arg1) -> {
-			
-			new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("msgDialogErro")));
+			visibilityOfElementLocated(By.cssSelector("#dialogErro > md-dialog"));
 			String msg = driver.findElement(By.id("msgDialogErro")).getText();
 
 			assertThat(arg1, is(msg));
 		});
+		
+		Então("^O site mostra a notificacao de erro de preenchimento do tamanho da senha$", () -> {
+			visibilityOfElementLocated(flashErrorMessageFromInputId("inputTamanho"));
+			String msg = driver.findElement(flashErrorMessageFromInputId("inputTamanho")).getText();
+
+			assertThat("O campo de tamanho de senha deve ser preenchido.", is(msg));
+		});
+
+		Então("^O site mostra a notificacao de erro de tamanho de senha$", () -> {
+			visibilityOfElementLocated(flashErrorMessageFromInputId("inputTamanho"));
+			String msg = driver.findElement(flashErrorMessageFromInputId("inputTamanho")).getText();
+
+			assertThat("Informe um tamanho de senha entre 5 e 10.", is(msg));
+		});
+		
 
 		Então("^O botão de gerar é desabilitado$", () -> {
 			boolean enabled = driver.findElement(By.id("botaoGerar")).isEnabled();
@@ -190,6 +209,17 @@ public class GerarSenhaSpec implements Pt {
 		After(() -> {
 			driver.close();
 		});
-
+	}
+	
+	private By flashErrorMessageFromInputId(String inputId) {
+		return By.cssSelector("div[ng-messages='form." + inputId +".$error']");
+	}
+	
+	private void visibilityOfElementLocated(By location) {
+		visibilityOfElementLocated(location, 5);
+	}
+	
+	private void visibilityOfElementLocated(By location, int timeout) {
+		new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(location));
 	}
 }
