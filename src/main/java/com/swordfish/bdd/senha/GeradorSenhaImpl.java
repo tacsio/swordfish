@@ -124,20 +124,4 @@ public class GeradorSenhaImpl implements GeradorSenha {
 		return senhaFinal;
 	}
 
-	public static void main(String[] args) {
-
-		Configuracao c = new Configuracao();
-		c.setNome(null);
-		c.setDiaNasc(1);
-		c.setMesNasc(2);
-		c.setCaracteresEspeciais(true);
-		c.setMaiuscula(true);
-		c.setRepeticaoNumeros(false);
-		c.setTamanho(10);
-		c.setTipoSenha(TipoSenha.ALFANUMERICO);
-
-		GeradorSenhaImpl g = new GeradorSenhaImpl();
-		System.out.println(g.gerarSenha(c));
-	}
-
 }

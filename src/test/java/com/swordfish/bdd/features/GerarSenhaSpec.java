@@ -118,7 +118,7 @@ public class GerarSenhaSpec implements Pt {
 				marcado =false;
 			}
 			
-			configuracao.setMaiuscula(marcado);
+			configuracao.setRepeticaoNumeros(marcado);
 			visibilityOfElementLocated(By.id("checkRepeticao"));
 
 			if(marcado) {
@@ -135,7 +135,7 @@ public class GerarSenhaSpec implements Pt {
 				marcado =false;
 			}
 			
-			configuracao.setMaiuscula(marcado);
+			configuracao.setCaracteresEspeciais(marcado);
 			visibilityOfElementLocated(By.id("checkCaracEspeciais"));
 
 			if(marcado) {
@@ -178,7 +178,10 @@ public class GerarSenhaSpec implements Pt {
 
 		Então("^as senhas estão válidas de acordo com as opções selecionadas$", () -> {
 			senhas.forEach(s -> {
-				assertThat(true, is(configuracao.validate(s)));
+				
+				boolean valid = configuracao.validate(s);
+				
+				assertThat(true, is(valid));
 			});
 		});
 

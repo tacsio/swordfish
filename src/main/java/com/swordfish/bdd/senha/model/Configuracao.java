@@ -1,6 +1,14 @@
 package com.swordfish.bdd.senha.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.swordfish.bdd.senha.ValidadorSenha;
+import com.swordfish.bdd.senha.exception.SenhaInvalidaException;
+
 public class Configuracao {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Configuracao.class);
 
 	private String nome;
 	private Integer diaNasc;
@@ -122,9 +130,17 @@ public class Configuracao {
 				+ ", tipoSenha=" + tipoSenha + "]";
 	}
 
-	public boolean validate(String s) {
-		//TODO;
-		return true;
+	public boolean validate(String senha) {
+		
+		boolean valida = false;
+		try {
+			valida = ValidadorSenha.validar(senha, this);
+		} catch (SenhaInvalidaException e) {
+			LOGGER.error("Senha inválida {}. Para configuracao {}", senha, this);
+			LOGGER.error(e.getMessage());
+		}
+		
+		return valida;
 	}
 
 }

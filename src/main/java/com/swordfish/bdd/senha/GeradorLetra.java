@@ -8,6 +8,7 @@ public class GeradorLetra implements GeradorCaractere {
 
 	private static String alfabeto = "abcdefghijklmnopqrstuvwxyz";
 	private boolean permiteMaiuscula;
+	private boolean gerouMaiuscula;
 
 	public GeradorLetra(boolean permiteMaiuscula) {
 		this.permiteMaiuscula = permiteMaiuscula;
@@ -23,6 +24,12 @@ public class GeradorLetra implements GeradorCaractere {
 		String letra = String.valueOf(GeradorLetra.alfabeto.charAt(indice));
 
 		if (this.permiteMaiuscula) {
+
+			if (!gerouMaiuscula) {
+				letra = letra.toUpperCase();
+				gerouMaiuscula = true;
+			}
+
 			boolean upper = new Random().nextBoolean();
 			if (upper) {
 				letra = letra.toUpperCase();
