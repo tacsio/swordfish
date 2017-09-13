@@ -15,12 +15,22 @@
 Sample spring boot application configured with cucumber to exercise integration tests
 and [behavior-driven development][bdd]
 
+Demo Version
+=========
+We deploye an simple Progressive Web App on [Heroku][swordfish]
+
 Team
 =========
 - Hially Sá - [@hiallyrs](https://github.com/hiallyrs)
 - Mariane Mariz - [@mariemariz](https://github.com/mariemariz)
 - Tarcisio Coutinho - [@tacsio](https://github.com/tacsio)
 
+
+Dependencies
+=========
+
+- Java 8
+- Bower 1.7+
 
 Building
 =========
@@ -32,6 +42,13 @@ bower install
 ./gradlew eclipse
 ```
 
+Running Tests
+=========
+
+```sh
+bower install
+./gradlew clean check
+```
 
 License
 =========
@@ -75,3 +92,4 @@ Contributing
 [Status]: https://travis-ci.org/tacsio/swordfish.svg?branch=master
 
 [bdd]: https://en.wikipedia.org/wiki/Behavior-driven_development
+[swordfish]: https://passwordfish.herokuapp.com
