@@ -35,6 +35,8 @@ dependencies {
 }
 
 test {
-    testLogging.showStandardStreams = true
+    testLogging.showStandardStreams = false
+    reports.html.enabled = false
+	reports.junitXml.enabled = false
     systemProperties System.getProperties()
 }
