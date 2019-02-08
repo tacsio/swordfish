@@ -86,7 +86,7 @@ Contributing
 
 
 
-[Logo]: http://elnur.pro/images/bdd-cycle-around-tdd-cycles.png
+[Logo]: http://blogs.infosupport.com/wp-content/uploads/2014/05/bdd-cycle.png
 [License]: https://img.shields.io/github/license/tacsio/swordfish.svg
 [Issues]: https://img.shields.io/github/issues/tacsio/swordfish.svg
 [Status]: https://travis-ci.org/tacsio/swordfish.svg?branch=master
